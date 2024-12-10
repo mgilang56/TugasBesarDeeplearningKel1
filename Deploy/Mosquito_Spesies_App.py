@@ -154,7 +154,7 @@ def main():
     add_bg_from_url()  # Menambahkan background
     add_header_logo()  # Menambahkan logo header
 
-    st.title("Prediksi Spesies Nyamuk Berdasarkan Suara")
+    st.title()
     
     # Mengunduh model dan riwayat pelatihan
     model = load_model()
