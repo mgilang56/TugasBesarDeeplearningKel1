@@ -106,10 +106,12 @@ def add_bg_from_url():
             text-align: center;
         }
         .footer {
-            text-align: center;
+            position: fixed;
+            bottom: 0;
+            right: 0;
             font-size: 14px;
             color: white;
-            margin-top: 20px;
+            margin: 10px;
         }
         .center-content {
             display: flex;
