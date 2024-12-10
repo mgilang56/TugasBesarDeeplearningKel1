@@ -7,8 +7,6 @@ import io
 import os
 import gdown
 import json
-import matplotlib.pyplot as plt
-
 
 # URL Google Drive
 model_url = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -222,6 +220,15 @@ def main():
                     if result_index is not None:
                         label = ["Aedes Aegypti", "Anopheles Stephensi", "Culex Pipiens"]
                         st.markdown(f"Predicted Species: {label[result_index]}")
+                    else:
+                        st.error("Model gagal memberikan prediksi.")
+                else:
+                    st.error("Gagal memproses file audio.")
+        st.audio(audio_bytes, format="audio/wav")
 
+    # Footer
+    st.markdown("<div class='footer'>Made with ❤️ by Sains Data</div>", unsafe_allow_html=True)
+
+# Menjalankan aplikasi Streamlit
 if __name__ == "__main__":
     main()
