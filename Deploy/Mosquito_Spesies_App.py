@@ -162,7 +162,6 @@ def add_header_logo():
                 </div>
             </div>
             <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
-            <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
         </div>
         <div class="social-icons">
             <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
