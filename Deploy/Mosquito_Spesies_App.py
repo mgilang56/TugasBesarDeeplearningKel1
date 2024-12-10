@@ -96,6 +96,7 @@ def show_prediction_result(audio_file, model):
         st.error("Gagal memproses file audio.")
 
 # Fungsi untuk menambah background dari URL
+# Fungsi untuk menambah background dari URL
 def add_bg_from_url():
     st.markdown(
         f"""
@@ -104,6 +105,23 @@ def add_bg_from_url():
             background-image: url('https://asset.kompas.com/crops/Uoby6be9TIeMzC18327oT1MCjlI=/13x0:500x325/1200x800/data/photo/2020/03/12/5e69cae0eb1d1.jpg');
             background-size: cover;
             background-position: top center;
+            color: white;
+        }}
+        h1, h2, h3, h4, h5 {{
+            color: white;
+            text-align: center;
+        }}
+        .footer {{
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            margin-top: 20px;
+        }}
+        .center-content {{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }}
         </style>
         """,
@@ -113,13 +131,16 @@ def add_bg_from_url():
 # Fungsi untuk menambah header logo
 def add_header_logo():
     st.markdown("""
-    <div>
-        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo Nyamuk 1" width="65" height="65">
-        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo Nyamuk 2" width="65" height="65">
-        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo Nyamuk 3" width="65" height="65">
+    <div class="center-content">
+        <div>
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo Nyamuk 1" width="65" height="65">
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo Nyamuk 2" width="65" height="65">
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo Nyamuk 3" width="65" height="65">
+        </div>
+        <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesiesnya</h1>
+        <h2>Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h2>
+        <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
     </div>
-    <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesiesnya Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
-    <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
     """, unsafe_allow_html=True)
 
 # Fungsi untuk menambah footer
