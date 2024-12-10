@@ -12,6 +12,7 @@ from streamlit_lottie import st_lottie
 import requests
 from datetime import datetime
 import pytz
+import csv
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -124,6 +125,17 @@ def add_bg_from_url():
             flex-direction: column;
             align-items: center;
         }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -148,6 +160,17 @@ def add_header_logo():
             </div>
             <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
             <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
+            <div class="social-icons">
+                <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+                </a>
+                <a href="https://wa.me/6285157725574" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                </a>
+                <a href="https://instagram.com" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                </a>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
@@ -169,7 +192,7 @@ def add_user_guide():
 
 
 def add_feedback_section():
-    """Add feedback section."""
+    """Add feedback section with file saving."""
     st.markdown("""
     <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
         <h2>Bagaimana Pendapat Anda tentang Aplikasi Ini?</h2>
@@ -179,7 +202,13 @@ def add_feedback_section():
 
     feedback = st.text_area("Tulis pendapat atau saran Anda di sini:")
     if st.button("Kirim Feedback"):
-        st.success("Terima kasih atas masukan Anda!")
+        if feedback.strip():
+            with open("feedback.csv", "a", newline="", encoding="utf-8") as file:
+                writer = csv.writer(file)
+                writer.writerow([feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
+            st.success("Terima kasih atas masukan Anda! Saran telah disimpan.")
+        else:
+            st.error("Silakan isi kotak saran sebelum mengirim.")
 
 
 def add_dynamic_footer():
