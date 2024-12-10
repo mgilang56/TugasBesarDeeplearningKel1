@@ -8,6 +8,9 @@ import os
 import gdown
 import json
 import matplotlib.pyplot as plt
+from streamlit_lottie import st_lottie
+import requests
+import time
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -108,10 +111,11 @@ def add_bg_from_url():
         .footer {
             position: fixed;
             bottom: 0;
-            right: 0;
-            font-size: 14px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             color: white;
-            margin: 10px;
+            padding: 10px;
+            text-align: center;
         }
         .center-content {
             display: flex;
@@ -148,41 +152,50 @@ def add_header_logo():
         unsafe_allow_html=True
     )
 
-def add_info_section():
+
+def add_user_guide():
+    """Add user guide section."""
     st.markdown("""
     <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
-        <h2>Informasi Edukatif tentang Nyamuk</h2>
-        <p>Nyamuk merupakan salah satu serangga yang dapat menjadi vektor penyakit berbahaya seperti demam berdarah, malaria, dan zika. 
-        Berikut adalah beberapa spesies yang perlu diwaspadai:</p>
-        <ul>
-            <li><strong>Aedes Aegypti:</strong> Vektor utama demam berdarah (DBD).</li>
-            <li><strong>Anopheles Stephensi:</strong> Vektor utama malaria.</li>
-            <li><strong>Culex Pipiens:</strong> Penyebar virus West Nile.</li>
-        </ul>
-        <p>Langkah-langkah pencegahan:</p>
-        <ul>
-            <li>Menguras dan menutup tempat penampungan air.</li>
-            <li>Menggunakan kelambu atau lotion anti nyamuk.</li>
-            <li>Menanam tanaman pengusir nyamuk seperti serai wangi.</li>
-        </ul>
+        <h2>Panduan Penggunaan</h2>
+        <ol>
+            <li>Upload file audio nyamuk dalam format <strong>.wav</strong> atau <strong>.mp3</strong>.</li>
+            <li>Tekan tombol "Prediksi" untuk mengetahui spesies nyamuk.</li>
+            <li>Tekan tombol "Show Training History" untuk melihat riwayat pelatihan model.</li>
+        </ol>
     </div>
     """, unsafe_allow_html=True)
 
-def add_footer():
-    """Add footer."""
-    st.markdown(
-        """
-        <div class="footer">
-            <h4>© Developer: Kelompok 1 Deep Learning</h4>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+
+def add_feedback_section():
+    """Add feedback section."""
+    st.markdown("""
+    <div style="margin-top: 30px; padding: 20px; background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; text-align: center;">
+        <h2>Bagaimana Pendapat Anda tentang Aplikasi Ini?</h2>
+        <p>Kami sangat menghargai masukan Anda untuk meningkatkan kualitas aplikasi ini.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    feedback = st.text_area("Tulis pendapat atau saran Anda di sini:")
+    if st.button("Kirim Feedback"):
+        st.success("Terima kasih atas masukan Anda!")
+
+
+def add_dynamic_footer():
+    """Add footer with real-time clock."""
+    current_time = time.strftime('%H:%M:%S', time.localtime())
+    st.markdown(f"""
+    <div class="footer">
+        <span>© Developer: Kelompok 1 Deep Learning | Jam: {current_time}</span>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # Main Application
 def main():
     add_bg_from_url()
     add_header_logo()
+    add_user_guide()
 
     # Load Model
     model = load_model()
@@ -197,10 +210,6 @@ def main():
     if st.button("Show Training History"):
         history = load_training_history()
         if history:
-            st.write("**Training History:**")
-            st.json(history)
-
-            # Plot accuracy and loss
             epochs = range(1, len(history['accuracy']) + 1)
 
             plt.figure()
@@ -221,7 +230,9 @@ def main():
             plt.legend()
             st.pyplot(plt)
 
-    add_footer()
+    add_feedback_section()
+    add_dynamic_footer()
+
 
 if __name__ == "__main__":
     main()
