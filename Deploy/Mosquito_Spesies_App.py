@@ -12,7 +12,6 @@ from streamlit_lottie import st_lottie
 import requests
 from datetime import datetime
 import pytz
-import csv
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -29,12 +28,10 @@ def download_file(url, output):
         with st.spinner(f"Downloading {output}..."):
             gdown.download(url, output, quiet=False)
 
-
 def load_model():
     """Load the trained model."""
     download_file(MODEL_URL, MODEL_FILE)
     return tf.keras.models.load_model(MODEL_FILE)
-
 
 def load_training_history(file_path=HISTORY_FILE):
     """Load the training history from a JSON file."""
@@ -44,7 +41,6 @@ def load_training_history(file_path=HISTORY_FILE):
     except Exception as e:
         st.error(f"Error loading training history: {e}")
         return None
-
 
 def load_and_preprocess_file(audio_file):
     """Load and preprocess the audio file."""
@@ -70,7 +66,6 @@ def load_and_preprocess_file(audio_file):
         st.error(f"Error during audio preprocessing: {e}")
         return None
 
-
 def model_prediction(X_test, model):
     """Perform prediction using the model."""
     try:
@@ -79,7 +74,6 @@ def model_prediction(X_test, model):
     except Exception as e:
         st.error(f"Error during model prediction: {e}")
         return None
-
 
 def show_prediction_result(audio_file, model):
     """Display the prediction result."""
@@ -126,21 +120,30 @@ def add_bg_from_url():
             align-items: center;
         }
         .social-icons {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
             display: flex;
-            justify-content: center;
             gap: 15px;
-            margin-top: 20px;
         }
         .social-icons img {
             width: 40px;
             height: 40px;
             cursor: pointer;
         }
+        .custom-button {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
-
 
 def add_header_logo():
     """Add header logo and title."""
@@ -160,22 +163,21 @@ def add_header_logo():
             </div>
             <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
             <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
-            <div class="social-icons">
-                <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
-                </a>
-                <a href="https://wa.me/6285157725574" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                </a>
-                <a href="https://instagram.com" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-                </a>
-            </div>
+        </div>
+        <div class="social-icons">
+            <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+            </a>
+            <a href="https://wa.me/6285157725574" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+            <a href="https://instagram.com" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+            </a>
         </div>
         """,
         unsafe_allow_html=True
     )
-
 
 def add_user_guide():
     """Add user guide section."""
@@ -190,27 +192,6 @@ def add_user_guide():
     </div>
     """, unsafe_allow_html=True)
 
-
-def add_feedback_section():
-    """Add feedback section with file saving."""
-    st.markdown("""
-    <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
-        <h2>Bagaimana Pendapat Anda tentang Aplikasi Ini?</h2>
-        <p>Kami sangat menghargai masukan Anda untuk meningkatkan kualitas aplikasi ini.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    feedback = st.text_area("Tulis pendapat atau saran Anda di sini:")
-    if st.button("Kirim Feedback"):
-        if feedback.strip():
-            with open("feedback.csv", "a", newline="", encoding="utf-8") as file:
-                writer = csv.writer(file)
-                writer.writerow([feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
-            st.success("Terima kasih atas masukan Anda! Saran telah disimpan.")
-        else:
-            st.error("Silakan isi kotak saran sebelum mengirim.")
-
-
 def add_dynamic_footer():
     """Add footer with real-time clock in WIB."""
     wib = pytz.timezone('Asia/Jakarta')  # Zona waktu WIB
@@ -221,7 +202,6 @@ def add_dynamic_footer():
     </div>
     """, unsafe_allow_html=True)
 
-
 def add_animation():
     """Add mosquito animation."""
     animation_url = "https://assets9.lottiefiles.com/packages/lf20_9pnbs7tv.json"  # Animasi nyamuk
@@ -229,7 +209,6 @@ def add_animation():
     if r.status_code == 200:
         lottie_animation = r.json()
         st_lottie(lottie_animation, height=300, key="mosquito-animation")
-
 
 def main():
     add_bg_from_url()
@@ -241,13 +220,18 @@ def main():
     model = load_model()
 
     # File Uploader
-    audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"])
+    audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"],
+                                  help="Drag & Drop atau klik untuk upload file.",
+                                  label_visibility="visible", 
+                                  label_visibility_style="custom-button")
     if audio_file is not None:
         st.audio(audio_file, format="audio/wav")
         show_prediction_result(audio_file, model)
 
     # Show Training History
-    if st.button("Show Training History"):
+    if st.button("Show Training History", help="Lihat riwayat pelatihan model.",
+                 use_container_width=True,
+                 label_visibility_style="custom-button"):
         history = load_training_history()
         if history:
             epochs = range(1, len(history['accuracy']) + 1)
@@ -270,9 +254,7 @@ def main():
             plt.legend()
             st.pyplot(plt)
 
-    add_feedback_section()
     add_dynamic_footer()
-
 
 if __name__ == "__main__":
     main()
