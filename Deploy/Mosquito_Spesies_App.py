@@ -6,6 +6,8 @@ from tensorflow.image import resize
 import io
 import os
 import gdown
+import json
+
 
 # URL Google Drive
 model_url = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
