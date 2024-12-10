@@ -135,7 +135,7 @@ def add_header_logo():
                 <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo 2" width="65" height="65">
                 <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo 3" width="65" height="65">
             </div>
-            <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies</h1>
+            <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
             <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
         </div>
         """,
