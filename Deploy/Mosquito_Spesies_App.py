@@ -171,33 +171,33 @@ def main():
         # Menampilkan hasil prediksi
         show_prediction_result(audio_file, model)
 
-    # Tampilkan riwayat pelatihan
-    if st.button("Show Training History"):
-        history = load_training_history()
-        if history:
-            st.write("Training History:")
-            st.json(history)
+# Tampilkan riwayat pelatihan (hanya plot)
+if st.button("Show Training History"):
+    history = load_training_history()
+    if history:
+        # Visualisasi akurasi dan loss
+        epochs = range(1, len(history['accuracy']) + 1)
 
-            # Visualisasi akurasi dan loss
-            epochs = range(1, len(history['accuracy']) + 1)
+        st.markdown("### Training and Validation Accuracy")
+        plt.figure()
+        plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+        plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+        plt.title("Accuracy Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Accuracy")
+        plt.legend()
+        st.pyplot(plt)
 
-            plt.figure()
-            plt.plot(epochs, history['accuracy'], label="Training Accuracy")
-            plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
-            plt.title("Accuracy Over Epochs")
-            plt.xlabel("Epochs")
-            plt.ylabel("Accuracy")
-            plt.legend()
-            st.pyplot(plt)
+        st.markdown("### Training and Validation Loss")
+        plt.figure()
+        plt.plot(epochs, history['loss'], label="Training Loss")
+        plt.plot(epochs, history['val_loss'], label="Validation Loss")
+        plt.title("Loss Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Loss")
+        plt.legend()
+        st.pyplot(plt)
 
-            plt.figure()
-            plt.plot(epochs, history['loss'], label="Training Loss")
-            plt.plot(epochs, history['val_loss'], label="Validation Loss")
-            plt.title("Loss Over Epochs")
-            plt.xlabel("Epochs")
-            plt.ylabel("Loss")
-            plt.legend()
-            st.pyplot(plt)
 
     add_footer()  # Menambahkan footer
 
