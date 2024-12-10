@@ -1,10 +1,43 @@
 import streamlit as st
+import tensorflow as tf
 import numpy as np
 import librosa
-import librosa.display
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image
-from skimage.transform import resize
+from tensorflow.image import resize
+import io
+import os
+import gdown
+import json
+
+
+# URL Google Drive
+model_url = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
+history_url = "https://drive.google.com/uc?id=1tl_NtfvabLha3-hrwYIaQmPu3hrxYgYv"
+
+# Nama file setelah diunduh
+model_file = "trained_model.keras"
+history_file = "training_history.json"
+
+# Fungsi untuk mengunduh file dari Google Drive
+def download_file_from_google_drive(url, output):
+    if not os.path.exists(output):
+        with st.spinner(f"Downloading {output}..."):
+            gdown.download(url, output, quiet=False)
+
+# Fungsi untuk memuat model
+def load_model():
+    download_file_from_google_drive(model_url, model_file)
+    model = tf.keras.models.load_model(model_file)
+    return model
+
+# Fungsi untuk memuat riwayat pelatihan
+def load_training_history(file_path="training_history.json"):
+    try:
+        with open(file_path, "r") as file:
+            history = json.load(file)
+        return history
+    except Exception as e:
+        st.error(f"Error loading training history: {e}")
+        return None
 
 # Fungsi untuk memuat dan memproses file audio
 def load_and_preprocess_file(audio_file):
@@ -34,10 +67,8 @@ def load_and_preprocess_file(audio_file):
     return X_test
 
 # Fungsi untuk melakukan prediksi menggunakan model
-def model_prediction(X_test):
+def model_prediction(X_test, model):
     try:
-        # Load model
-        model = tf.keras.models.load_model('model_culex.h5')  # Pastikan nama model benar
         # Melakukan prediksi
         prediction = model.predict(X_test)
         result_index = np.argmax(prediction, axis=1)[0]  # Menentukan indeks kelas yang diprediksi
@@ -47,14 +78,14 @@ def model_prediction(X_test):
         return None
 
 # Fungsi untuk menampilkan hasil prediksi
-def show_prediction_result(audio_file):
+def show_prediction_result(audio_file, model):
     X_test = load_and_preprocess_file(audio_file)
     
     # Menampilkan bentuk data setelah preprocessing untuk debugging
     st.write("Shape of preprocessed data:", X_test.shape)
     
     if X_test is not None:
-        result_index = model_prediction(X_test)
+        result_index = model_prediction(X_test, model)
         if result_index is not None:
             # Daftar label kelas yang diprediksi
             label = ["Aedes Aegypti", "Anopheles Stephensi", "Culex Pipiens"]
@@ -68,6 +99,9 @@ def show_prediction_result(audio_file):
 def main():
     st.title("Prediksi Spesies Nyamuk Berdasarkan Suara")
     
+    # Mengunduh model dan riwayat pelatihan
+    model = load_model()
+    
     # Upload file audio
     audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"])
     
@@ -76,7 +110,7 @@ def main():
         st.audio(audio_file, format="audio/wav")
         
         # Menampilkan hasil prediksi
-        show_prediction_result(audio_file)
+        show_prediction_result(audio_file, model)
 
 # Menjalankan aplikasi Streamlit
 if __name__ == "__main__":
