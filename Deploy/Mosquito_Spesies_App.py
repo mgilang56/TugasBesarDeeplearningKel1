@@ -220,18 +220,13 @@ def main():
     model = load_model()
 
     # File Uploader
-    audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"],
-                                  help="Drag & Drop atau klik untuk upload file.",
-                                  label_visibility="visible", 
-                                  label_visibility_style="custom-button")
+    audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"], help="Drag & Drop atau klik untuk upload file.")
     if audio_file is not None:
         st.audio(audio_file, format="audio/wav")
         show_prediction_result(audio_file, model)
 
     # Show Training History
-    if st.button("Show Training History", help="Lihat riwayat pelatihan model.",
-                 use_container_width=True,
-                 label_visibility_style="custom-button"):
+    if st.button("Show Training History", help="Lihat riwayat pelatihan model."):
         history = load_training_history()
         if history:
             epochs = range(1, len(history['accuracy']) + 1)
