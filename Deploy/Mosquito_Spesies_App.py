@@ -33,13 +33,6 @@ def download_file(url, output):
         with st.spinner(f"Downloading {output}..."):
             gdown.download(url, output, quiet=False)
 
-def upload_to_drive(file_path, file_name):
-    credentials = None  # Load your Google API credentials here
-    service = build("drive", "v3", credentials=credentials)
-    file_metadata = {"name": file_name, "parents": [DRIVE_FOLDER_ID]}
-    media = MediaFileUpload(file_path, mimetype="text/csv")
-    service.files().create(body=file_metadata, media_body=media, fields="id").execute()
-
 def load_model():
     download_file(MODEL_URL, MODEL_FILE)
     return tf.keras.models.load_model(MODEL_FILE)
@@ -156,26 +149,6 @@ def add_user_guide():
     </div>
     """, unsafe_allow_html=True)
 
-def add_feedback_section():
-    st.markdown("""
-    <div class="custom-box">
-        <h2>Bagaimana Pendapat Anda tentang Aplikasi Ini?</h2>
-        <p>Kami sangat menghargai masukan Anda untuk meningkatkan kualitas aplikasi ini.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    feedback = st.text_area("Tulis pendapat atau saran Anda di sini:")
-    if st.button("Kirim Feedback"):
-        if feedback.strip():
-            feedback_file = "feedback.csv"
-            with open(feedback_file, "a", newline="", encoding="utf-8") as file:
-                writer = csv.writer(file)
-                writer.writerow([feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
-            upload_to_drive(feedback_file, "feedback.csv")
-            st.success("Terima kasih atas masukan Anda! Saran telah disimpan.")
-        else:
-            st.error("Silakan isi kotak saran sebelum mengirim.")
-
 def add_dynamic_footer():
     wib = pytz.timezone('Asia/Jakarta')
     current_time = datetime.now(wib).strftime('%H:%M:%S')
@@ -220,7 +193,6 @@ def main():
             plt.legend()
             st.pyplot(plt)
 
-    add_feedback_section()
     add_dynamic_footer()
 
     st.markdown("""
