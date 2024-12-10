@@ -10,7 +10,8 @@ import json
 import matplotlib.pyplot as plt
 from streamlit_lottie import st_lottie
 import requests
-import time
+from datetime import datetime
+import pytz
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -170,31 +171,41 @@ def add_user_guide():
 def add_feedback_section():
     """Add feedback section."""
     st.markdown("""
-    <div style="margin-top: 30px; padding: 20px; background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; text-align: center;">
+    <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
         <h2>Bagaimana Pendapat Anda tentang Aplikasi Ini?</h2>
         <p>Kami sangat menghargai masukan Anda untuk meningkatkan kualitas aplikasi ini.</p>
     </div>
     """, unsafe_allow_html=True)
-    
+
     feedback = st.text_area("Tulis pendapat atau saran Anda di sini:")
     if st.button("Kirim Feedback"):
         st.success("Terima kasih atas masukan Anda!")
 
 
 def add_dynamic_footer():
-    """Add footer with real-time clock."""
-    current_time = time.strftime('%H:%M:%S', time.localtime())
+    """Add footer with real-time clock in WIB."""
+    wib = pytz.timezone('Asia/Jakarta')  # Zona waktu WIB
+    current_time = datetime.now(wib).strftime('%H:%M:%S')
     st.markdown(f"""
     <div class="footer">
-        <span>© Developer: Kelompok 1 Deep Learning | Jam: {current_time}</span>
+        <span>© Developer: Kelompok 1 Deep Learning | Jam: {current_time} WIB</span>
     </div>
     """, unsafe_allow_html=True)
 
 
-# Main Application
+def add_animation():
+    """Add mosquito animation."""
+    animation_url = "https://assets9.lottiefiles.com/packages/lf20_9pnbs7tv.json"  # Animasi nyamuk
+    r = requests.get(animation_url)
+    if r.status_code == 200:
+        lottie_animation = r.json()
+        st_lottie(lottie_animation, height=300, key="mosquito-animation")
+
+
 def main():
     add_bg_from_url()
     add_header_logo()
+    add_animation()  # Animasi nyamuk
     add_user_guide()
 
     # Load Model
