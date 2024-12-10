@@ -96,7 +96,7 @@ def add_bg_from_url():
         """
         <style>
         .stApp {
-            background-image: url('https://3.bp.blogspot.com/-zdBQNHrxaeE/WaV5f2MXTWI/AAAAAAAABqk/EljnY_cUxQwa8bTXGlGgQqOUUD62AG2UgCLcBGAs/s1600/nyamuk.jpg');
+            background-image: url('https://jenis.net/wp-content/uploads/2020/06/jenis-nyamuk-e1591437296119-768x456.jpg');
             background-size: cover;
             background-position: top center;
             color: white;
