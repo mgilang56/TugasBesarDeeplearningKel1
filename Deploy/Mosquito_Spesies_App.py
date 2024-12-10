@@ -27,6 +27,16 @@ def load_model():
     model = tf.keras.models.load_model(model_file)
     return model
 
+# Fungsi untuk memuat riwayat pelatihan
+def load_training_history(file_path="training_history.json"):
+    try:
+        with open(file_path, "r") as file:
+            history = json.load(file)
+        return history
+    except Exception as e:
+        st.error(f"Error loading training history: {e}")
+        return None
+
 # Fungsi untuk memproses file audio
 def load_and_preprocess_file(file, target_shape=(180, 180)):
     data = []
@@ -67,6 +77,35 @@ def model_prediction(X_test):
     return max_elements[0]
 
 # Menambahkan background gambar dari URL
+# Tampilkan riwayat pelatihan
+if st.button("Show Training History"):
+    history = load_training_history()
+    if history:
+        st.write("Training History:")
+        st.json(history)
+
+        # Visualisasi akurasi dan loss
+        import matplotlib.pyplot as plt
+        epochs = range(1, len(history['accuracy']) + 1)
+
+        plt.figure()
+        plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+        plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+        plt.title("Accuracy Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Accuracy")
+        plt.legend()
+        st.pyplot(plt)
+
+        plt.figure()
+        plt.plot(epochs, history['loss'], label="Training Loss")
+        plt.plot(epochs, history['val_loss'], label="Validation Loss")
+        plt.title("Loss Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Loss")
+        plt.legend()
+        st.pyplot(plt)
+
 def add_bg_from_url():
     st.markdown(
         f"""
