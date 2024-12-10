@@ -96,7 +96,6 @@ def show_prediction_result(audio_file, model):
         st.error("Gagal memproses file audio.")
 
 # Fungsi untuk menambah background dari URL
-# Fungsi untuk menambah background dari URL
 def add_bg_from_url():
     st.markdown(
         f"""
@@ -137,8 +136,7 @@ def add_header_logo():
             <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo Nyamuk 2" width="65" height="65">
             <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo Nyamuk 3" width="65" height="65">
         </div>
-        <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesiesnya</h1>
-        <h2>Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h2>
+        <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesiesnya Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
         <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
     </div>
     """, unsafe_allow_html=True)
@@ -171,36 +169,37 @@ def main():
         # Menampilkan hasil prediksi
         show_prediction_result(audio_file, model)
 
-# Tampilkan riwayat pelatihan (hanya plot)
-if st.button("Show Training History"):
-    history = load_training_history()
-    if history:
-        # Visualisasi akurasi dan loss
-        epochs = range(1, len(history['accuracy']) + 1)
+    # Tampilkan riwayat pelatihan
+    if st.button("Show Training History"):
+        history = load_training_history()
+        if history:
+            st.write("Training History:")
+            st.json(history)
 
-        st.markdown("### Training and Validation Accuracy")
-        plt.figure()
-        plt.plot(epochs, history['accuracy'], label="Training Accuracy")
-        plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
-        plt.title("Accuracy Over Epochs")
-        plt.xlabel("Epochs")
-        plt.ylabel("Accuracy")
-        plt.legend()
-        st.pyplot(plt)
+            # Visualisasi akurasi dan loss
+            epochs = range(1, len(history['accuracy']) + 1)
 
-        st.markdown("### Training and Validation Loss")
-        plt.figure()
-        plt.plot(epochs, history['loss'], label="Training Loss")
-        plt.plot(epochs, history['val_loss'], label="Validation Loss")
-        plt.title("Loss Over Epochs")
-        plt.xlabel("Epochs")
-        plt.ylabel("Loss")
-        plt.legend()
-        st.pyplot(plt)
+            plt.figure()
+            plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+            plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+            plt.title("Accuracy Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Accuracy")
+            plt.legend()
+            st.pyplot(plt)
 
+            plt.figure()
+            plt.plot(epochs, history['loss'], label="Training Loss")
+            plt.plot(epochs, history['val_loss'], label="Validation Loss")
+            plt.title("Loss Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Loss")
+            plt.legend()
+            st.pyplot(plt)
 
     add_footer()  # Menambahkan footer
 
 # Menjalankan aplikasi Streamlit
 if __name__ == "__main__":
     main()
+
