@@ -96,7 +96,7 @@ def add_bg_from_url():
         """
         <style>
         .stApp {
-            background-image: url('https://asset.kompas.com/crops/Uoby6be9TIeMzC18327oT1MCjlI=/13x0:500x325/1200x800/data/photo/2020/03/12/5e69cae0eb1d1.jpg');
+            background-image: url('http://puskesmaskedungbanteng.banyumaskab.go.id/news/47365/mengenal-nyamuk-anopheles-aedes-dan-culex');
             background-size: cover;
             background-position: top center;
             color: white;
