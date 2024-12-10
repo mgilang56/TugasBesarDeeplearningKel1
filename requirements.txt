@@ -8,3 +8,4 @@ json5==0.9.22
 streamlit==1.39.0
 streamlit-lottie
 gdown
+csv
