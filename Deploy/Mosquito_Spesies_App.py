@@ -210,39 +210,6 @@ def add_animation():
         lottie_animation = r.json()
         st_lottie(lottie_animation, height=300, key="mosquito-animation")
 
-def show_disease_alert():
-    """Show a disease alert based on location."""
-    try:
-        location = requests.get("https://ipinfo.io").json()
-        city = location.get("city", "Unknown location")
-        st.markdown(f"### Health Alert for {city}")
-        st.info("Dengue cases are high in this area. Take precautions!")
-    except Exception as e:
-        st.error("Could not retrieve location-based alerts.")
-
-def toggle_dark_mode():
-    """Toggle dark mode for the app."""
-    dark_mode_css = '''
-    <style>
-    .stApp {
-        background-color: #1e1e1e;
-        color: white;
-    }
-    </style>
-    '''
-    st.markdown(dark_mode_css, unsafe_allow_html=True)
-
-def mosquito_quiz():
-    """Interactive mosquito species quiz."""
-    st.markdown("### Mosquito Quiz")
-    question = "Which mosquito species transmits malaria?"
-    options = ["Aedes Aegypti", "Anopheles Stephensi", "Culex Pipiens"]
-    answer = st.radio(question, options)
-    if answer == "Anopheles Stephensi":
-        st.success("Correct!")
-    else:
-        st.error("Try again!")
-
 def main():
     add_bg_from_url()
     add_header_logo()
@@ -281,18 +248,6 @@ def main():
             plt.ylabel("Loss")
             plt.legend()
             st.pyplot(plt)
-
-    # Add health alert
-    if st.checkbox("Show Disease Alert"):
-        show_disease_alert()
-
-    # Dark mode toggle
-    if st.checkbox("Enable Dark Mode"):
-        toggle_dark_mode()
-
-    # Interactive quiz
-    if st.button("Take the Mosquito Quiz"):
-        mosquito_quiz()
 
     add_dynamic_footer()
 
