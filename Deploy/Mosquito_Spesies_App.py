@@ -148,6 +148,25 @@ def add_header_logo():
         unsafe_allow_html=True
     )
 
+def add_info_section():
+    st.markdown("""
+    <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
+        <h2>Informasi Edukatif tentang Nyamuk</h2>
+        <p>Nyamuk merupakan salah satu serangga yang dapat menjadi vektor penyakit berbahaya seperti demam berdarah, malaria, dan zika. 
+        Berikut adalah beberapa spesies yang perlu diwaspadai:</p>
+        <ul>
+            <li><strong>Aedes Aegypti:</strong> Vektor utama demam berdarah (DBD).</li>
+            <li><strong>Anopheles Stephensi:</strong> Vektor utama malaria.</li>
+            <li><strong>Culex Pipiens:</strong> Penyebar virus West Nile.</li>
+        </ul>
+        <p>Langkah-langkah pencegahan:</p>
+        <ul>
+            <li>Menguras dan menutup tempat penampungan air.</li>
+            <li>Menggunakan kelambu atau lotion anti nyamuk.</li>
+            <li>Menanam tanaman pengusir nyamuk seperti serai wangi.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
 def add_footer():
     """Add footer."""
