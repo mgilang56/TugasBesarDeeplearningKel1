@@ -5,63 +5,60 @@ import librosa
 from tensorflow.image import resize
 import io
 import os
+import gdown
+
+# URL Google Drive
+model_url = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
+history_url = "https://drive.google.com/uc?id=1tl_NtfvabLha3-hrwYIaQmPu3hrxYgYv"
+
+# Nama file setelah diunduh
+model_file = "trained_model.keras"
+history_file = "training_history.json"
+
+# Fungsi untuk mengunduh file dari Google Drive
+def download_file_from_google_drive(url, output):
+    if not os.path.exists(output):
+        with st.spinner(f"Downloading {output}..."):
+            gdown.download(url, output, quiet=False)
 
 # Fungsi untuk memuat model
 def load_model():
-    model_path = os.path.join(os.getcwd(), "Output", "trained_model.keras")  # Sesuaikan path model Anda
-    if not os.path.exists(model_path):
-        st.error(f"Model tidak ditemukan di {model_path}. Pastikan model telah disimpan dengan benar.")
-        return None
-    model = tf.keras.models.load_model(model_path)
+    download_file_from_google_drive(model_url, model_file)
+    model = tf.keras.models.load_model(model_file)
     return model
 
 # Fungsi untuk memproses file audio
 def load_and_preprocess_file(file, target_shape=(180, 180)):
     data = []
-    try:
-        # Load file audio
-        audio_data, sample_rate = librosa.load(file, sr=None)
+    audio_data, sample_rate = librosa.load(file, sr=None)
 
-        # Durasi chunk dan overlap
-        chunk_duration = 2  # Dalam detik
-        overlap_duration = 1  # Dalam detik
-        chunk_samples = chunk_duration * sample_rate
-        overlap_samples = overlap_duration * sample_rate
+    chunk_duration = 2
+    overlap_duration = 1
 
-        # Hitung jumlah chunk
-        num_chunks = int(np.ceil((len(audio_data) - chunk_samples) / (chunk_samples - overlap_samples))) + 1
+    chunk_samples = chunk_duration * sample_rate
+    overlap_samples = overlap_duration * sample_rate
 
-        for i in range(num_chunks):
-            start = i * (chunk_samples - overlap_samples)
-            end = start + chunk_samples
-            chunk = audio_data[start:end]
+    num_chunks = int(np.ceil((len(audio_data) - chunk_samples) / (chunk_samples - overlap_samples))) + 1
 
-            # Pastikan chunk memiliki ukuran yang tepat
-            if len(chunk) < chunk_samples:
-                chunk = np.pad(chunk, (0, chunk_samples - len(chunk)), mode='constant')
+    for i in range(num_chunks):
+        start = i * (chunk_samples - overlap_samples)
+        end = start + chunk_samples
+        chunk = audio_data[start:end]
 
-            # Ekstraksi mel-spectrogram
-            mel_spectrogram = librosa.feature.melspectrogram(y=chunk, sr=sample_rate)
-            mel_spectrogram = resize(np.expand_dims(mel_spectrogram, axis=-1), target_shape)
+        mel_spectrogram = librosa.feature.melspectrogram(y=chunk, sr=sample_rate)
+        mel_spectrogram = resize(np.expand_dims(mel_spectrogram, axis=-1), target_shape)
 
-            # Ekstraksi MFCC
-            mfcc = librosa.feature.mfcc(y=chunk, sr=sample_rate, n_mfcc=13)
-            mfcc_resized = resize(np.expand_dims(mfcc, axis=-1), target_shape)
+        mfcc = librosa.feature.mfcc(y=chunk, sr=sample_rate, n_mfcc=13)
+        mfcc_resized = resize(np.expand_dims(mfcc, axis=-1), target_shape)
 
-            # Gabungkan fitur
-            combined_features = np.concatenate([mel_spectrogram, mfcc_resized], axis=-1)
-            data.append(combined_features)
+        combined_features = np.concatenate([mel_spectrogram, mfcc_resized], axis=-1)
+        data.append(combined_features)
 
-        return np.array(data)
-    except Exception as e:
-        st.error(f"Terjadi kesalahan saat memproses file audio: {e}")
-        return None
+    return np.array(data)
 
 # Fungsi untuk prediksi model
 def model_prediction(X_test):
     model = load_model()
-    if model is None:
-        return None
     y_pred = model.predict(X_test)
     predicted_categories = np.argmax(y_pred, axis=1)
     unique_elements, counts = np.unique(predicted_categories, return_counts=True)
