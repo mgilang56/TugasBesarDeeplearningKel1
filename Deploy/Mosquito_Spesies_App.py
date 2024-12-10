@@ -79,35 +79,6 @@ def model_prediction(X_test):
     return max_elements[0]
 
 # Menambahkan background gambar dari URL
-# Tampilkan riwayat pelatihan
-if st.button("Show Training History"):
-    history = load_training_history()
-    if history:
-        st.write("Training History:")
-        st.json(history)
-
-        # Visualisasi akurasi dan loss
-        import matplotlib.pyplot as plt
-        epochs = range(1, len(history['accuracy']) + 1)
-
-        plt.figure()
-        plt.plot(epochs, history['accuracy'], label="Training Accuracy")
-        plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
-        plt.title("Accuracy Over Epochs")
-        plt.xlabel("Epochs")
-        plt.ylabel("Accuracy")
-        plt.legend()
-        st.pyplot(plt)
-
-        plt.figure()
-        plt.plot(epochs, history['loss'], label="Training Loss")
-        plt.plot(epochs, history['val_loss'], label="Validation Loss")
-        plt.title("Loss Over Epochs")
-        plt.xlabel("Epochs")
-        plt.ylabel("Loss")
-        plt.legend()
-        st.pyplot(plt)
-
 def add_bg_from_url():
     st.markdown(
         f"""
@@ -253,3 +224,31 @@ st.markdown("""
         <h4>© Developer: Kelompok 1 Deep Learning</h4>
     </div>
 """, unsafe_allow_html=True)
+# Tampilkan riwayat pelatihan
+if st.button("Show Training History"):
+    history = load_training_history()
+    if history:
+        st.write("Training History:")
+        st.json(history)
+
+        # Visualisasi akurasi dan loss
+        import matplotlib.pyplot as plt
+        epochs = range(1, len(history['accuracy']) + 1)
+
+        plt.figure()
+        plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+        plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+        plt.title("Accuracy Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Accuracy")
+        plt.legend()
+        st.pyplot(plt)
+
+        plt.figure()
+        plt.plot(epochs, history['loss'], label="Training Loss")
+        plt.plot(epochs, history['val_loss'], label="Validation Loss")
+        plt.title("Loss Over Epochs")
+        plt.xlabel("Epochs")
+        plt.ylabel("Loss")
+        plt.legend()
+        st.pyplot(plt)
