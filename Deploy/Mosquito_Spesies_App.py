@@ -7,7 +7,7 @@ import io
 import os
 import gdown
 import json
-
+import matplotlib.pyplot as plt
 
 # URL Google Drive
 model_url = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -95,8 +95,46 @@ def show_prediction_result(audio_file, model):
     else:
         st.error("Gagal memproses file audio.")
 
+# Fungsi untuk menambah background dari URL
+def add_bg_from_url():
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url('https://asset.kompas.com/crops/Uoby6be9TIeMzC18327oT1MCjlI=/13x0:500x325/1200x800/data/photo/2020/03/12/5e69cae0eb1d1.jpg');
+            background-size: cover;
+            background-position: top center;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Fungsi untuk menambah header logo
+def add_header_logo():
+    st.markdown("""
+    <div>
+        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo Nyamuk 1" width="65" height="65">
+        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo Nyamuk 2" width="65" height="65">
+        <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo Nyamuk 3" width="65" height="65">
+    </div>
+    <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesiesnya Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
+    <h3>Upload file suara nyamuk untuk memprediksi spesiesnya</h3>
+    """, unsafe_allow_html=True)
+
+# Fungsi untuk menambah footer
+def add_footer():
+    st.markdown("""
+    <div class="footer">
+        <h4>© Developer: Kelompok 1 Deep Learning</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
 # Fungsi utama untuk menjalankan aplikasi Streamlit
 def main():
+    add_bg_from_url()  # Menambahkan background
+    add_header_logo()  # Menambahkan logo header
+
     st.title("Prediksi Spesies Nyamuk Berdasarkan Suara")
     
     # Mengunduh model dan riwayat pelatihan
@@ -111,6 +149,36 @@ def main():
         
         # Menampilkan hasil prediksi
         show_prediction_result(audio_file, model)
+
+    # Tampilkan riwayat pelatihan
+    if st.button("Show Training History"):
+        history = load_training_history()
+        if history:
+            st.write("Training History:")
+            st.json(history)
+
+            # Visualisasi akurasi dan loss
+            epochs = range(1, len(history['accuracy']) + 1)
+
+            plt.figure()
+            plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+            plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+            plt.title("Accuracy Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Accuracy")
+            plt.legend()
+            st.pyplot(plt)
+
+            plt.figure()
+            plt.plot(epochs, history['loss'], label="Training Loss")
+            plt.plot(epochs, history['val_loss'], label="Validation Loss")
+            plt.title("Loss Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Loss")
+            plt.legend()
+            st.pyplot(plt)
+
+    add_footer()  # Menambahkan footer
 
 # Menjalankan aplikasi Streamlit
 if __name__ == "__main__":
