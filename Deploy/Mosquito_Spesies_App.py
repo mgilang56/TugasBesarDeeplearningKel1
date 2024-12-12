@@ -2,6 +2,7 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 import librosa
+import librosa.display
 from tensorflow.image import resize
 import io
 import os
@@ -76,13 +77,26 @@ def model_prediction(X_test, model):
         return None
 
 def show_prediction_result(audio_file, model):
-    """Display the prediction result."""
+    """Display the prediction result along with the spectrogram."""
     X_test = load_and_preprocess_file(audio_file)
     if X_test is not None:
         result_index = model_prediction(X_test, model)
         if result_index is not None:
             labels = ["Aedes Aegypti", "Anopheles Stephensi", "Culex Pipiens"]
             st.markdown(f"**Predicted Species:** {labels[result_index]}")
+
+            # Visualisasi Spektrogram
+            y, sr = librosa.load(audio_file, sr=None)
+            mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+            mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
+
+            # Plot Mel-Spectrogram
+            plt.figure(figsize=(10, 6))
+            librosa.display.specshow(mel_spectrogram_db, x_axis='time', y_axis='mel', sr=sr)
+            plt.colorbar(format='%+2.0f dB')
+            plt.title('Mel-Spectrogram')
+            st.pyplot(plt)
+
         else:
             st.error("Model failed to provide a prediction.")
     else:
