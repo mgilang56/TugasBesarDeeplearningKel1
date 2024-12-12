@@ -10,5 +10,5 @@ streamlit-lottie
 gdown
 pytz
 requests
-pydub==0.25.1
-pillow==8.4.0
+pydub
+pillow
