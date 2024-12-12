@@ -98,21 +98,20 @@ def show_prediction_result(audio_file, model):
             predicted_species = labels[result_index]
             st.markdown(f"**Predicted Species:** {predicted_species}")
 
-            # Tampilkan gambar spesies nyamuk berdasarkan prediksi
-            st.image(species_images[predicted_species], width=200)
-
-            # Visualisasi Spektrogram
+            # Plotting Mel-Spectrogram
             audio_file.seek(0)  # Reset file pointer to the start
             y, sr = librosa.load(audio_file, sr=None)
             mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
             mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
 
-            # Plot Mel-Spectrogram
-            plt.figure(figsize=(10, 6))
+            plt.figure(figsize=(10, 6))  # Mel-Spectrogram plot size
             librosa.display.specshow(mel_spectrogram_db, x_axis='time', y_axis='mel', sr=sr)
             plt.colorbar(format='%+2.0f dB')
             plt.title('Mel-Spectrogram')
             st.pyplot(plt)
+
+            # Display the species image with the same size as the Mel-Spectrogram
+            st.image(species_images[predicted_species], use_column_width=True)
 
         else:
             st.error("Model failed to provide a prediction.")
@@ -217,7 +216,7 @@ def add_user_guide():
         <ul style="font-size: 18px;">
             <li>1. Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
             <li>2. Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
-            <li>3. Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram.</li>
+            <li>3. Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram dan gambar nyamuk.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
