@@ -13,6 +13,7 @@ from streamlit_lottie import st_lottie
 import requests
 from datetime import datetime
 import pytz
+from io import BytesIO
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -46,7 +47,9 @@ def load_training_history(file_path=HISTORY_FILE):
 def load_and_preprocess_file(audio_file):
     """Load and preprocess the audio file."""
     try:
-        y, sr = librosa.load(audio_file, sr=None)
+        # Convert file-like object to byte stream and read it with librosa
+        audio_bytes = BytesIO(audio_file.read())
+        y, sr = librosa.load(audio_bytes, sr=None)
 
         # Extract Mel-spectrogram
         mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
@@ -86,7 +89,8 @@ def show_prediction_result(audio_file, model):
             st.markdown(f"**Predicted Species:** {labels[result_index]}")
 
             # Visualisasi Spektrogram
-            y, sr = librosa.load(audio_file, sr=None)
+            audio_bytes = BytesIO(audio_file.read())  # Reopen the audio file
+            y, sr = librosa.load(audio_bytes, sr=None)
             mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
             mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
 
