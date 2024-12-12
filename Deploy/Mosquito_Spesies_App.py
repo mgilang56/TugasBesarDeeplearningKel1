@@ -109,31 +109,6 @@ def show_prediction_result(audio_file, model):
     else:
         st.error("Failed to process the audio file.")
 
-def plot_training_history():
-    """Plot the training history of the model."""
-    history = load_training_history()
-    if history is not None:
-        # Plot accuracy
-        plt.figure(figsize=(12, 6))
-        plt.subplot(1, 2, 1)
-        plt.plot(history['accuracy'], label='Training Accuracy')
-        plt.plot(history['val_accuracy'], label='Validation Accuracy')
-        plt.title('Model Accuracy')
-        plt.xlabel('Epoch')
-        plt.ylabel('Accuracy')
-        plt.legend()
-
-        # Plot loss
-        plt.subplot(1, 2, 2)
-        plt.plot(history['loss'], label='Training Loss')
-        plt.plot(history['val_loss'], label='Validation Loss')
-        plt.title('Model Loss')
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.legend()
-
-        st.pyplot(plt)
-
 # UI Styling Functions
 def add_bg_from_url():
     """Add background from a URL."""
@@ -211,10 +186,13 @@ def add_header_logo():
         </div>
         <div class="social-icons">
             <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/GitHub_Mark.svg/1024px-GitHub_Mark.svg.png" alt="GitHub" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
             </a>
-            <a href="https://www.linkedin.com/in/mgilang56/" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/LinkedIn_logo_initials.png/512px-LinkedIn_logo_initials.png" alt="LinkedIn" />
+            <a href="https://wa.me/6285157725574" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+            <a href="https://instagram.com" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
             </a>
         </div>
         """,
@@ -222,9 +200,9 @@ def add_header_logo():
     )
 
 def add_user_guide():
-    """Add user guide for the application."""
+    """Add user guide section."""
     st.markdown("""
-    <div class="center-content">
+    <div style="margin-top: 30px;">
         <h2>Panduan Penggunaan:</h2>
         <ul style="font-size: 18px;">
             <li>1. Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
@@ -249,7 +227,6 @@ def main():
     if audio_file is not None:
         model = load_model()  # Load the model
         show_prediction_result(audio_file, model)  # Show the prediction result
-        plot_training_history()  # Show the training history plot
 
 # Run the app
 if __name__ == "__main__":
