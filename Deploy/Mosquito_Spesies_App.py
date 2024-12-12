@@ -83,13 +83,23 @@ def model_prediction(X_test, model):
         return None
 
 def show_prediction_result(audio_file, model):
-    """Display the prediction result along with the spectrogram."""
+    """Display the prediction result along with the spectrogram and species image."""
     X_test = load_and_preprocess_file(audio_file)
     if X_test is not None:
         result_index = model_prediction(X_test, model)
         if result_index is not None:
             labels = ["Aedes Aegypti", "Anopheles Stephensi", "Culex Pipiens"]
-            st.markdown(f"**Predicted Species:** {labels[result_index]}")
+            species_images = {
+                "Aedes Aegypti": "https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/107968a98c65ae8c82e1956f6967237ecfb2b68f/Deploy/Aedes%20Aegypti.png?raw=true",
+                "Anopheles Stephensi": "https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/107968a98c65ae8c82e1956f6967237ecfb2b68f/Deploy/Anopheles%20Stephensi.png?raw=true",
+                "Culex Pipiens": "https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/107968a98c65ae8c82e1956f6967237ecfb2b68f/Deploy/Culex%20Pipiens.png?raw=true"
+            }
+
+            predicted_species = labels[result_index]
+            st.markdown(f"**Predicted Species:** {predicted_species}")
+
+            # Tampilkan gambar spesies nyamuk berdasarkan prediksi
+            st.image(species_images[predicted_species], width=200)
 
             # Visualisasi Spektrogram
             audio_file.seek(0)  # Reset file pointer to the start
