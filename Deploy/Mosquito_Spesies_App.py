@@ -13,7 +13,7 @@ from streamlit_lottie import st_lottie
 import requests
 from datetime import datetime
 import pytz
-from io import BytesIO
+import soundfile as sf
 
 # Google Drive URLs
 MODEL_URL = "https://drive.google.com/uc?id=1rbfhPOQLBKxyRvrSUS5jpHjjVBGgCKqx"
@@ -47,9 +47,12 @@ def load_training_history(file_path=HISTORY_FILE):
 def load_and_preprocess_file(audio_file):
     """Load and preprocess the audio file."""
     try:
-        # Convert file-like object to byte stream and read it with librosa
-        audio_bytes = BytesIO(audio_file.read())
-        y, sr = librosa.load(audio_bytes, sr=None)
+        # Membaca file audio yang di-upload sebagai byte stream
+        audio_bytes = audio_file.read()
+        audio_buffer = io.BytesIO(audio_bytes)
+
+        # Load audio using librosa from byte stream
+        y, sr = librosa.load(audio_buffer, sr=None)
 
         # Extract Mel-spectrogram
         mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
@@ -67,7 +70,7 @@ def load_and_preprocess_file(audio_file):
         X_test = np.concatenate((mel_spectrogram_resized, mfcc_resized), axis=-1)
         return np.expand_dims(X_test, axis=0)  # Add batch dimension
     except Exception as e:
-        st.error(f"Error during audio preprocessing: {e}")
+        print(f"Error during audio preprocessing: {e}")
         return None
 
 def model_prediction(X_test, model):
@@ -89,8 +92,8 @@ def show_prediction_result(audio_file, model):
             st.markdown(f"**Predicted Species:** {labels[result_index]}")
 
             # Visualisasi Spektrogram
-            audio_bytes = BytesIO(audio_file.read())  # Reopen the audio file
-            y, sr = librosa.load(audio_bytes, sr=None)
+            audio_file.seek(0)  # Reset file pointer to the start
+            y, sr = librosa.load(audio_file, sr=None)
             mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
             mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
 
@@ -199,74 +202,32 @@ def add_header_logo():
 def add_user_guide():
     """Add user guide section."""
     st.markdown("""
-    <div style="margin-top: 30px; padding: 20px; background-color: rgba(0, 0, 0, 0.6); border-radius: 10px; color: white;">
-        <h2>Panduan Penggunaan</h2>
-        <ol>
-            <li>Upload file audio nyamuk dalam format <strong>.wav</strong> atau <strong>.mp3</strong>.</li>
-            <li>Tekan tombol "Prediksi" untuk mengetahui spesies nyamuk.</li>
-            <li>Tekan tombol "Show Training History" untuk melihat riwayat pelatihan model.</li>
-        </ol>
+    <div style="margin-top: 30px;">
+        <h2>Panduan Penggunaan:</h2>
+        <ul style="font-size: 18px;">
+            <li>1. Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
+            <li>2. Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
+            <li>3. Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram.</li>
+        </ul>
     </div>
     """, unsafe_allow_html=True)
 
-def add_dynamic_footer():
-    """Add footer with real-time clock in WIB."""
-    wib = pytz.timezone('Asia/Jakarta')  # Zona waktu WIB
-    current_time = datetime.now(wib).strftime('%H:%M:%S')
-    st.markdown(f"""
-    <div class="footer">
-        <span>© Developer: Kelompok 1 Deep Learning | Jam: {current_time} WIB</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-def add_animation():
-    """Add mosquito animation."""
-    animation_url = "https://assets9.lottiefiles.com/packages/lf20_9pnbs7tv.json"  # Animasi nyamuk
-    r = requests.get(animation_url)
-    if r.status_code == 200:
-        lottie_animation = r.json()
-        st_lottie(lottie_animation, height=300, key="mosquito-animation")
-
+# Main Streamlit App
 def main():
-    add_bg_from_url()
-    add_header_logo()
-    add_animation()  # Animasi nyamuk
-    add_user_guide()
-
-    # Load Model
-    model = load_model()
-
-    # File Uploader
-    audio_file = st.file_uploader("Pilih file audio untuk diprediksi", type=["wav", "mp3"], help="Drag & Drop atau klik untuk upload file.")
+    """Main function for the Streamlit app."""
+    add_bg_from_url()  # Add background
+    add_header_logo()  # Add header logo and title
+    add_user_guide()   # Add user guide
+    
+    st.markdown("### Upload File Audio Nyamuk:")
+    
+    # Upload file audio
+    audio_file = st.file_uploader("Pilih file audio (.wav, .mp3)", type=["wav", "mp3"])
+    
     if audio_file is not None:
-        st.audio(audio_file, format="audio/wav")
-        show_prediction_result(audio_file, model)
+        model = load_model()  # Load the model
+        show_prediction_result(audio_file, model)  # Show the prediction result
 
-    # Show Training History
-    if st.button("Show Training History", help="Lihat riwayat pelatihan model."):
-        history = load_training_history()
-        if history:
-            epochs = range(1, len(history['accuracy']) + 1)
-
-            plt.figure()
-            plt.plot(epochs, history['accuracy'], label="Training Accuracy")
-            plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
-            plt.title("Accuracy Over Epochs")
-            plt.xlabel("Epochs")
-            plt.ylabel("Accuracy")
-            plt.legend()
-            st.pyplot(plt)
-
-            plt.figure()
-            plt.plot(epochs, history['loss'], label="Training Loss")
-            plt.plot(epochs, history['val_loss'], label="Validation Loss")
-            plt.title("Loss Over Epochs")
-            plt.xlabel("Epochs")
-            plt.ylabel("Loss")
-            plt.legend()
-            st.pyplot(plt)
-
-    add_dynamic_footer()
-
+# Run the app
 if __name__ == "__main__":
     main()
