@@ -125,7 +125,7 @@ def add_bg_from_url():
         """
         <style>
         .stApp {
-            background-image: url('https://jenis.net/wp-content/uploads/2020/06/jenis-nyamuk-e1591437296119-768x456.jpg');
+            background-image: url("https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/main/Deploy/backgroundcoba1.jpg?raw=true");
             background-size: cover;
             background-position: top center;
             color: white;
