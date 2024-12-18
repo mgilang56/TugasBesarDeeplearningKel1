@@ -176,50 +176,45 @@ def add_bg_from_url():
     )
 
 def add_header_logo():
-    """Add header logo and title."""
+    """Add header logo and title with adjusted sizes."""
     st.markdown(
         """
         <div class="center-content">
-            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
                 <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo 1" width="100" height="100">
+                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo 1" width="80" height="80">
                 </div>
                 <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo 2" width="100" height="100">
+                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo 2" width="80" height="80">
                 </div>
                 <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo 3" width="100" height="100">
+                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo 3" width="80" height="80">
                 </div>
             </div>
-            <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
-        </div>
-        <div class="social-icons">
-            <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
-            </a>
-            <a href="https://wa.me/6285157725574" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-            </a>
+            <h1 style="font-size: 32px; color: white; text-align: center; margin-top: 10px;">
+                Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN
+            </h1>
+            <h2 style="font-size: 26px; color: white; text-align: center; margin-top: -10px;">
+                untuk Inovasi Pengendalian Hama dan Penyakit
+            </h2>
         </div>
         """,
         unsafe_allow_html=True
     )
 
 def add_user_guide():
-    """Add user guide section."""
+    """Add user guide section with consistent formatting."""
     st.markdown("""
-    <div style="margin-top: 30px;">
-        <h2>Panduan Penggunaan:</h2>
-        <ul style="font-size: 18px;">
-            <li>1. Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
-            <li>2. Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
-            <li>3. Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram dan gambar nyamuk.</li>
+    <div style="margin-top: 30px; text-align: center;">
+        <h3 style="font-size: 24px; color: white; text-align: center; margin-bottom: 15px;">Panduan Penggunaan:</h3>
+        <ul style="font-size: 18px; color: white; text-align: left; display: inline-block;">
+            <li>Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
+            <li>Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
+            <li>Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram dan gambar nyamuk.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
+
 
 # Main Streamlit App
 def main():
