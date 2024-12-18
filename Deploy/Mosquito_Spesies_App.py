@@ -214,7 +214,47 @@ def add_user_guide():
         </ul>
     </div>
     """, unsafe_allow_html=True)
+    
+def add_social_icons():
+    st.markdown("""
+    <div class="social-icons">
+        <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+        </a>
+        <a href="https://wa.me/6285157725574" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+        <a href="https://instagram.com" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Show Training History
+    if st.button("Show Training History", help="Lihat riwayat pelatihan model."):
+        history = load_training_history()
+        if history:
+            epochs = range(1, len(history['accuracy']) + 1)
 
+            plt.figure()
+            plt.plot(epochs, history['accuracy'], label="Training Accuracy")
+            plt.plot(epochs, history['val_accuracy'], label="Validation Accuracy")
+            plt.title("Accuracy Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Accuracy")
+            plt.legend()
+            st.pyplot(plt)
+
+            plt.figure()
+            plt.plot(epochs, history['loss'], label="Training Loss")
+            plt.plot(epochs, history['val_loss'], label="Validation Loss")
+            plt.title("Loss Over Epochs")
+            plt.xlabel("Epochs")
+            plt.ylabel("Loss")
+            plt.legend()
+            st.pyplot(plt)
+
+    add_dynamic_footer()
 
 # Main Streamlit App
 def main():
