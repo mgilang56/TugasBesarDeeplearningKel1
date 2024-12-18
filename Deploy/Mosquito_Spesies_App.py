@@ -120,113 +120,76 @@ def show_prediction_result(audio_file, model):
 
 # UI Styling Functions
 def add_bg_from_url():
-    """Add background from a URL."""
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background-image: url("https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/main/Deploy/backgroundcoba2.jpg?raw=true");
-            background-size: cover;
-            background-position: top center;
-            color: white;
-        }
-        h1, h2, h3, h4, h5 {
-            color: white;
-            text-align: center;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        .center-content {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-        }
-        .social-icons {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            display: flex;
-            gap: 15px;
-        }
-        .social-icons img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-        }
-        .custom-button {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <style>
+    .stApp {
+        background-image: url("https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/main/Deploy/backgroundcoba2.jpg?raw=true");
+        background-size: cover;
+        background-position: top center;
+        color: white;
+    }
+    .social-icons {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        display: flex;
+        gap: 10px;
+    }
+    .social-icons img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 def add_header_logo():
-    """Add header logo and title."""
-    st.markdown(
-        """
-        <div class="center-content">
-            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-                <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" alt="Logo 1" width="100" height="100">
-                </div>
-                <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" alt="Logo 2" width="100" height="100">
-                </div>
-                <div style="border: 2px solid white; border-radius: 10px; padding: 5px;">
-                    <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" alt="Logo 3" width="100" height="100">
-                </div>
-            </div>
-            <h1>Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN untuk Inovasi Pengendalian Hama dan Penyakit</h1>
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" width="80" height="80">
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" width="80" height="80">
+            <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" width="80" height="80">
         </div>
-        <div class="social-icons">
-            <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
-            </a>
-            <a href="https://wa.me/6285157725574" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        <h1 style="font-size: 30px; color: white;">Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN</h1>
+        <h2 style="font-size: 22px; color: white; margin-top: -10px;">untuk Inovasi Pengendalian Hama dan Penyakit</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 def add_user_guide():
-    """Add user guide section."""
     st.markdown("""
-    <div style="margin-top: 30px;">
-        <h2>Panduan Penggunaan:</h2>
-        <ul style="font-size: 18px;">
-            <li>1. Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
-            <li>2. Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
-            <li>3. Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram dan gambar nyamuk.</li>
+    <div style="text-align: center; margin-top: 30px;">
+        <h3 style="font-size: 20px; color: white;">Panduan Penggunaan:</h3>
+        <ul style="display: inline-block; text-align: left; font-size: 18px; color: white;">
+            <li>Unggah file audio dari nyamuk yang ingin diklasifikasikan.</li>
+            <li>Klik tombol untuk memprediksi spesies nyamuk berdasarkan suara.</li>
+            <li>Hasil prediksi akan ditampilkan beserta visualisasi Mel-spectrogram.</li>
         </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+def add_social_icons():
+    st.markdown("""
+    <div class="social-icons">
+        <a href="https://github.com/mgilang56/TugasBesarDeeplearningKel1" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+        </a>
+        <a href="https://wa.me/6285157725574" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+        <a href="https://instagram.com" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        </a>
     </div>
     """, unsafe_allow_html=True)
 
 # Main Streamlit App
 def main():
     """Main function for the Streamlit app."""
-    add_bg_from_url()  # Add background
-    add_header_logo()  # Add header logo and title
-    add_user_guide()   # Add user guide
+    add_bg_from_url()
+    add_header_logo()
+    add_user_guide()
+    add_social_icons()
     
     st.markdown("### Upload File Audio Nyamuk:")
     
