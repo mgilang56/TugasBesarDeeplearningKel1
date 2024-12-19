@@ -150,6 +150,7 @@ def add_header_logo():
             <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo1.png?raw=true" width="80" height="80">
             <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo2.png?raw=true" width="80" height="80">
             <img src="https://github.com/sains-data/Klasifikasi-Suara-Nyamuk-Berbasis-CNN-untuk-Inovasi-Pengendalian-Hama-dan-Penyakit/blob/main/Deploy/Logo3.png?raw=true" width="80" height="80">
+            <img src="https://github.com/mgilang56/TugasBesarDeeplearningKel1/blob/main/Deploy/Logo%20MosquID.png?raw=true" width="80" height="80">
         </div>
         <h1 style="font-size: 30px; color: white;">Klasifikasi Suara Nyamuk Berdasarkan Spesies Berbasis CNN</h1>
         <h2 style="font-size: 22px; color: white; margin-top: -10px;">untuk Inovasi Pengendalian Hama dan Penyakit</h2>
